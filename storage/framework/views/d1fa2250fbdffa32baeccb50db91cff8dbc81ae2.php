@@ -11,6 +11,10 @@
       function drawChart()
       {
        var data = google.visualization.arrayToDataTable(analytics);
+       if(data == "")
+       {
+        data = "null"
+       }
        var options = {
         title : 'Percentage between Male and Female Applicants'
        };

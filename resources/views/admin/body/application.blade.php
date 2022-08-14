@@ -99,11 +99,16 @@
         </td>
       </tr>
       @endforeach
-      
+      <div class="d-flex justify-content-center">
+        <tr>
+          <th>
+              {!! $app->links() !!}
+          </th>
+        </tr>
+        </div>
      
     
     </tbody>
   </table>
-  {!! $app->links() !!}
 </div>
 @endsection

@@ -89,13 +89,18 @@
         </td>
       </tr>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      
+      <div class="d-flex justify-content-center">
+        <tr>
+          <th>
+              <?php echo $app->links(); ?>
+
+          </th>
+        </tr>
+        </div>
      
     
     </tbody>
   </table>
-  <?php echo $app->links(); ?>
-
 </div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('admin.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\JBE\laravel-project\resources\views/admin/body/application.blade.php ENDPATH**/ ?>

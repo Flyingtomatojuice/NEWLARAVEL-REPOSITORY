@@ -1,16 +1,16 @@
 $(document).ready(function(){
 	
- // $('#birth-date').mask('00/00/0000');
- // $('#phone-number').mask('000-000-0000');
+	var lowerCaseLetters = /[a-z]/g;
+	var numbers = /[0-9]/g;
+	var upperCaseLetters = /[A-Z]/g;
   var email_pattern = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-  var pattern = /[^a-zA-Z0-9\!\@\#\$\%\^\*\_\|]+/;
+//   var pattern = /[^a-zA-Z0-9\!\@\#\$\%\^\*\_\|]+/;
   $("#registeradmin").submit(function(){
 	  let name = $("#name").val();
 	  let password =$("#password").val();
 	  let cpass = $("#cpassword").val();
 	  let email = $("#email").val();
-	  //let phonenumber = $("#phone-number").val();
-	  //let bday = $("#birth-date").val();
+		
 	  
 	  if(name == ""){
 		swal({
@@ -23,16 +23,60 @@ $(document).ready(function(){
 		return false;
 		
 	  }
-	  /*else if(pattern.test(name) && name !== ""){
-		  swal({
+	  
+	  if(email == ""){
+		swal({
 		title: "Missing",
-		text: 'Characters Only',
+		text: 'Please insert your email',
 		icon: "warning",
 		button: "OK",
 		});
+	
+		return false;
+	  }else if(email_pattern.test(email) && email != "")
+	  {
+		 
+	  }else{
+		swal({
+		title: "Missing",
+		text: 'Invalid Email format!',
+		icon: "warning",
+		button: "OK",
+		});
+		
 		  return false;
-	  }*/
-	  
+	  }
+
+
+	
+		   if(!password.match(lowerCaseLetters) ){
+				swal({
+				title: "Password pattern",
+				text: 'Password must contain lowercase letters',
+				icon: "warning",
+				button: "OK",
+			   });
+				return false;	
+			}
+			 if(!password.match(upperCaseLetters) ){
+				swal({
+					title: "Password pattern",
+					text: 'Password must contain uppercase letters',
+					icon: "warning",
+					button: "OK",
+				   });
+					return false;	
+			}
+			 if(!password.match(numbers)){
+				swal({
+					title: "Password pattern",
+					text: 'Password must contain numbers',
+					icon: "warning",
+					button: "OK",
+				   });
+					return false;	
+			}
+
 	  if(password == ""){
 		swal({
 		title: "Missing",
@@ -40,7 +84,7 @@ $(document).ready(function(){
 		icon: "warning",
 		button: "OK",
 		});
-		$("#password").focus();
+		
 		return false;
 	  }else if(password.length > 0 && password.length < 10){
 		  swal({
@@ -49,7 +93,7 @@ $(document).ready(function(){
 		icon: "warning",
 		button: "OK",
 		});
-		$("#password").focus();
+		
 		  return false;
 	  }
 	  if(cpass == ""){
@@ -59,7 +103,7 @@ $(document).ready(function(){
 		icon: "warning",
 		button: "OK",
 		});
-		$("#cpassword").focus();
+	
 		return false;
 	  }else if(cpass != password){
 		  swal({
@@ -70,54 +114,9 @@ $(document).ready(function(){
 		});
 		  return false;
 	  }
-	  if(email == ""){
-		swal({
-		title: "Missing",
-		text: 'Please insert your email',
-		icon: "warning",
-		button: "OK",
-		});
-		$("#email").focus();
-		return false;
-	  }else if(email_pattern.test(email) && email !== "")
-	  {
-		 
-	  }else{
-		swal({
-		title: "Missing",
-		text: 'Invalid Email format!',
-		icon: "warning",
-		button: "OK",
-		});
-		$("#email").focus();
-		  return false;
-	  }
-	//   if(phonenumber == ""){
-	// 	swal({
-	// 	title: "Missing",
-	// 	text: 'Please insert your phonenumber',
-	// 	icon: "warning",
-	// 	button: "OK",
-	// 	});
-	// 	$("#phone-number").focus();
-	// 	return false;
-	//   }
-	//   if(bday == ""){
-	// 	swal({
-	// 	title: "Missing",
-	// 	text: 'Please insert your birthdate',
-	// 	icon: "warning",
-	// 	button: "OK",
-	// 	});
-	// 	$("#birth-date").focus();
-	// 	return false;
-	//   }
-	  swal({
-		title: "Registration Status",
-		text: 'Successfully Registered!',
-		icon: "success",
-		button: "OK",
-		});
+	 
+	
+	  
 		
   });
   

@@ -15,7 +15,7 @@
               <th>Date Updated</th>
               <th>Action</th>            
           </tr>
-          @foreach ($anc as $list)
+          @foreach ($app as $list)
           <tr>
               <td>{{$list->id}}</td>
               <td>{{$list->title}}</td>
@@ -27,11 +27,19 @@
                  
                   <input name="_method" type="hidden" value="Delete">
                   <button class='btn btn-danger' action={{ "/admin/deleteAnnouncement/".$list['id'] }} onclick="destroyData(this)">Delete</button>
-             
+                 
           </td>
           </tr>
           @endforeach
+          <div class="d-flex justify-content-center">
+          <tr>
+            <th>
+                {!! $app->links() !!}
+            </th>
+          </tr>
+          </div>
       </table>
+     
   </div>
 </div>
 </div>

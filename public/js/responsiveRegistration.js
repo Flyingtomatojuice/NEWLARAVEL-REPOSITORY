@@ -1,3 +1,4 @@
+
 $(document).ready(function(){
 	const message_form = [
 		'Please enter your first name!',
@@ -44,8 +45,16 @@ $(document).ready(function(){
 			   fname.focus();
 			   return false;
 		   }
-		   
-		   
+		   var user_age = document.getElementById('input_age');
+		   if(user_age.value == null){
+			swal({
+				title: "Missing",
+				text: "Please valid birthday",
+				icon: "warning",
+				button: "OK",
+				});
+				return false;
+		   }
 		  
 		   if (lname.value == "") {
 			   
@@ -147,7 +156,7 @@ $(document).ready(function(){
 		   });
 			   dob.focus();
 			   return false;
-		   }
+			}
 		   
 		   //Address
 		   var address = document.getElementById("address")
@@ -186,16 +195,49 @@ $(document).ready(function(){
 		   // Password
 		   var password = document.getElementById("password")
 		   var cpass = document.getElementById('cpassword')
-		   
+		  
+		   var lowerCaseLetters = /[a-z]/g;
+		   var numbers = /[0-9]/g;
+		   var upperCaseLetters = /[A-Z]/g;
+		   if(!password.value.match(lowerCaseLetters) ){
+				swal({
+				title: "Password pattern",
+				text: 'Password must contain lowercase letters',
+				icon: "warning",
+				button: "OK",
+			   });
+				return false;	
+			}
+			 if(!password.value.match(upperCaseLetters) ){
+				swal({
+					title: "Password pattern",
+					text: 'Password must contain uppercase letters',
+					icon: "warning",
+					button: "OK",
+				   });
+					return false;	
+			}
+			 if(!password.value.match(numbers)){
+				swal({
+					title: "Password pattern",
+					text: 'Password must contain numbers',
+					icon: "warning",
+					button: "OK",
+				   });
+					return false;	
+			}
+
+
 		   if (password.length > 0 && password.length < 10) {
-					swal({
-		   title: "Password length",
-		   text: message_form[13],
-		   icon: "warning",
-		   button: "OK",
-		   });
+				
+				swal({
+		   		title: "Password length",
+		   		text: message_form[13],
+		   		icon: "warning",
+		   		button: "OK",
+		  		});
 				   return false;
-			   } else if (password.length == 0) {
+			   } else if (password.length == 0 || password.value == "") {
 					swal({
 		   title: "Missing",
 		   text: message_form[8],
@@ -224,7 +266,7 @@ $(document).ready(function(){
 		   icon: "warning",
 		   button: "OK",
 		   });
-			   agreement.focus();
+			   
 			   return false;
 		   }
 	   
@@ -285,7 +327,7 @@ function agecalculator(){
         var yy = dob.getFullYear();
 
         var agebyyear = Math.abs(yy - dNow.getFullYear());
-        
+       
         if((agebyyear > 12 && mm < cmm ) || (agebyyear > 12 && mm == cmm && dd <= cdd))
         {
             $(".agehere").html(agebyyear+ " years old");
@@ -296,7 +338,9 @@ function agecalculator(){
         }
         else 
         {
+			
             $(".agehere").html("Underage");
+			$('#input_age').val(null);
         }
     
 

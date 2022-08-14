@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Session;
 use Mail;
+use Illuminate\Support\Str;
 class MainController extends Controller
 {
   
@@ -51,43 +52,31 @@ class MainController extends Controller
         $email = MainModel::where('email','=',$request->email)->first();
         $lastname = MainModel::where('lastname','=',$request->lastname)->first();
         $firstname = MainModel::where('firstname','=',$request->firstname)->first();
-    //    $request->validate([
-    //         'firstname' =>'required',
-    //         'lastname' =>'required',
-    //         'middlename' =>'required',
-    //         'email' =>'required',
-    //         'phonenumber' =>'required',
-    //         'gender' =>'required',
-    //         'birthday' =>'required',
-    //         'age' =>'required',
-    //         'birthplace' =>'required',
-    //         'address' =>'required',
-    //         'postalcode' =>'required',
-    //         'password' =>'required',
-    //         'agreement' =>'required',
-    //    ]);
         $fullname = $request->firstname.' '.$request->middlename.' '.$request->lastname;
-       
+        $users_email = User::where('email','=',$request->email)->first();
+        $name = User::where('name','=',$fullname)->first();
      
-       
-       
-        if($lastname && $firstname)
+        if(($lastname && $firstname) && $email == false)
         {
-            return back()->with('Name','Your name is already registered!');
-           
-        }else if($email)
-        {
+           if($users_email){
             return back()->with('Email','Email is already used!');
-        }else if(($lastname && $firstname) && $email ){
+           }
+            return back()->with('Name','Your name is already registered!');
+        }else if((($lastname && $firstname) == false) && $email){
+            return back()->with('Email','Email is already used!');
+        } 
+        else if(($lastname && $firstname) && $email ){
             return back()->with('EmailAndName','Name and Email is already registered!');
+        }else if($name){
+            if($users_email){
+                return back()->with('EmailAndName','Name and Email is already registered!');
+            }
+            return back()->with('Name','Name is already registered!');
         }
+        else{
 
-      //stop error from occuring
-        // if(!empty($request->all()) ){
-        //     return back();
-        // }
+   
            
-        
         $isEmpty = MainModel::count();
         $added_id = 0; 
         if($isEmpty == 0){
@@ -102,8 +91,7 @@ class MainController extends Controller
             $applicationID = '2022A'.'0000'.$latestID;
             $agreement = 1;
         }
-        $create = MainModel::create([
-            'id' => $added_id,
+      MainModel::create([
             'user_id' =>$applicationID,
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
@@ -119,26 +107,21 @@ class MainController extends Controller
             'password' =>Hash::make($request->password),
             'agreement' => $agreement,
         ]);
-       
-        User::create([
+        
+        $create = User::create([
             'user_id'=>$applicationID,
             'name' =>$fullname,
             'email' =>$request->email,
+            'emailVerify_token'=>Str::random(60),
             'password' =>Hash::make($request->password),
             'role' => 'applicant',
         ]);
 
-        // $data = array('name'=>"Virat Gandhi");
-   
-        // Mail::send(['text'=>'mail'], $data, function($message) {
-        //    $message->to('jayveehidlao11@gmail.com', 'Tutorials Point')->subject
-        //       ('Laravel Basic Testing Mail');
-        //    $message->from('hidlaojayvee18@gmail.com','Virat Gandhi');
-        // });
-        Alert::success('Registered','Successfully Registered!');
-        return redirect('/login');
-
+        Mail::to($request->email)->send(new VerifyEmail($create));
+        return redirect('login');
+        }
     }
+        
     public function logout(){
       
         if(Session::has('loginID')){

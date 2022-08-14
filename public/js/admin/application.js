@@ -47,6 +47,22 @@ $(document).ready(function(){
   }
   });
 });
+function deleteapplicant(link){
+  swal({
+    icon: 'warning',
+    title: 'Delete?',
+    text: 'Are you sure you want to remove this applicant?',
+    buttons: ["No", "Yes"],
+    dangerMode: true,
+})
+    .then(isClose => {
+        if (isClose) {
+            window.location = $(link).attr('action');
+        } else {
+           
+        }
+    });
+}
 function destroyData(link){
   swal({
       icon: 'warning',

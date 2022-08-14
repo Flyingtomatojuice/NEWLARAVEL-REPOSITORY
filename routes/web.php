@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 // Route::post('/Registered',[App\Http\Controllers\MainController::class,'register'])->name('registered');
 // Route::post('/logged',[App\Http\Controllers\MainController::class,'login'])->name('login-user');
 // Route::get('/logout',[App\Http\Controllers\MainController::class,'logout']);
-
+Route::get('/verifyEmail/{token}',[App\Http\Controllers\MainController::class,'emailverification']);
 //controllers
 Route::controller(App\Http\Controllers\MainController::class)->group(function(){
     Route::post('/Registered','register')->name('registered');

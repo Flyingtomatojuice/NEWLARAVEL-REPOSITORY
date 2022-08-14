@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use Storage;
 use Illuminate\Support\Facades\Hash;
+use Mail;
 
 class AdminController extends Controller
 {
@@ -25,11 +26,12 @@ class AdminController extends Controller
         $app = MainModel::latest()->paginate(5);
         return view('admin.body.application',compact('app'))
         ->with('i',(request()->input('page',1)-1)*5);
+        
     }
       
     public function deleteApplicant($user_id){
-        $del = MainModel::find($user_id);
-        //Mail::to($del->email)->send(new RevokeMail($del));
+        $del = MainModel::where('user_id','=',$user_id);
+        Mail::to($del->email)->send(new RevokeMail($del));
         $del->delete();
         $del_user = User::where('user_id','=',$user_id);
         $del_user->delete();
@@ -64,10 +66,9 @@ class AdminController extends Controller
     }
     public function announcementlist()
     {
-        $image = Announcement::all();
-        //    $images = explode('|',$image->file);
-            
-           return view('admin.body.announcementlist',['anc'=>$image]);
+        $app = Announcement::latest()->paginate(5);
+        $appNo = Announcement::all();
+        return view('admin.body.announcementlist',['app'=>$app]);
     }
     public function announcement(Request $request){
         $this->validate($request,[
@@ -226,6 +227,7 @@ class AdminController extends Controller
         ->groupBy('gender')
         ->get();
       $array[] = ['Gender', 'Number'];
+      
       foreach($applicants as $key => $value)
       {
        $array[++$key] = [$value->gender, $value->number];

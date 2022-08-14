@@ -15,7 +15,7 @@
               <th>Date Updated</th>
               <th>Action</th>            
           </tr>
-          <?php $__currentLoopData = $anc; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+          <?php $__currentLoopData = $app; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
           <tr>
               <td><?php echo e($list->id); ?></td>
               <td><?php echo e($list->title); ?></td>
@@ -27,11 +27,20 @@
                  
                   <input name="_method" type="hidden" value="Delete">
                   <button class='btn btn-danger' action=<?php echo e("/admin/deleteAnnouncement/".$list['id']); ?> onclick="destroyData(this)">Delete</button>
-             
+                 
           </td>
           </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+          <div class="d-flex justify-content-center">
+          <tr>
+            <th>
+                <?php echo $app->links(); ?>
+
+            </th>
+          </tr>
+          </div>
       </table>
+     
   </div>
 </div>
 </div>
