@@ -16,7 +16,7 @@
         </div>
           <div class="row">
             <div class="col-sm-12">
-                <h1>Application ID : {{ '2022A'.$acc['id'] }}</h1>
+                <h1>Application ID : {{ $acc['user_id'] }}</h1>
             </div>
           </div>
         <div class="row">

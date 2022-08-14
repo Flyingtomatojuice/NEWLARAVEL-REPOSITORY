@@ -173,17 +173,7 @@
                                             <input type="text" id="form_address" name="address" value="{{ $acc['address']}}"  class="form-control" placeholder="Home Address">
                                         </div>
                                     </div>
-                            
-                                    <div class="col-xs-4 col-sm-4 col-md-4">
-                                        <div class="form-group">
-                                            <strong>Status:</strong>
-                                            <select class="form-control" value="{{ $acc['status']}}"  name="status">
-                                                <option value="single">Single</option>
-                                                <option value="married">Married</option>
-                                                <option value="divorced">Divorced</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                             
                             
                                     <div class="col-xs-4 col-sm-4 col-md-4">
                                         <div class="form-group">
@@ -209,7 +199,7 @@
                                                         <span>Male</span>
                                                         <input type="radio"  class="col-sm" name="gender"  value='Male' {{ $acc['gender']=="Male" ? "checked" : "" }} class="form-control">
                                                         <span>Female</span>
-                                                        <input type="radio"  class="col-sm" name="gender"  value='Female' {{ $acc['gender']=="male" ? "checked" : "" }} class="form-control">
+                                                        <input type="radio"  class="col-sm" name="gender"  value='Female' {{ $acc['gender']=="Female" ? "checked" : "" }} class="form-control">
                                                         </div>
                                                     </div>
                                                 </div>

@@ -1,6 +1,7 @@
 .maincontent
 {
-  margin-left: 200px;
+  margin-left: 230px;
+  margin-top: 5px;
 }
 .space{
     opacity: 1%;
@@ -172,5 +173,3 @@ only screen and (max-width: 1250px),
 		color: #000;
 		font-weight: bold;
 	}
-
-}

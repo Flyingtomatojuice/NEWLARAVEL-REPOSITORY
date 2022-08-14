@@ -9,5 +9,5 @@ class Announcement extends Model
 {
     public $table ="announcement";
     protected $primaryKey ="id";
-    protected $fillable = ['title','file','content'];
+    protected $fillable = ['title','file','content',];
 }

@@ -99,10 +99,12 @@ class MainController extends Controller
             $latest = MainModel::all()->last()->id;
             $latestID = $latest + 00001;
             $added_id = $latest + 1;
-            $applicationID = '2022A'.$latestID;
+            $applicationID = '2022A'.'0000'.$latestID;
+            $agreement = 1;
         }
         $create = MainModel::create([
             'id' => $added_id,
+            'user_id' =>$applicationID,
             'firstname' => $request->firstname,
             'lastname' => $request->lastname,
             'middlename'=>$request->middlename,
@@ -115,7 +117,7 @@ class MainController extends Controller
             'address' => $request->address,
             'postalcode' =>$request->postal,
             'password' =>Hash::make($request->password),
-            'agreement' =>$request->agreement
+            'agreement' => $agreement,
         ]);
        
         User::create([

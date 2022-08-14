@@ -6,6 +6,8 @@ use App\Models\Announcement;
 use App\Models\MainModel;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class ApplicantController extends Controller
 {
@@ -57,6 +59,7 @@ class ApplicantController extends Controller
             $data->lastname =$request->input('lname');
             $data->middlename =$request->input('mname');
             $data->email =$request->input('email');
+            $data->gender =$request->input('gender');
             $data->birthday =$request->input('bday');
             $data->age =$request->input('age');
             $data->phonenumber =$request->input('phonenumber');
@@ -66,6 +69,34 @@ class ApplicantController extends Controller
             $data->update();
             Alert::success('Updated','Successfully Updated');
             return back()->with('success','Successfully Updated!');
+        }
+    }
+    public function changepass(){
+        return view('user.body.changepassword');
+    }
+
+    public function updatepass(Request $request){
+        $id = session()->get('applicantID');
+        $Year = date("Y");
+        $applicationID = $Year.'A'.'0000'.$id;
+        $data = MainModel::find($id);
+        $user_role = User::where('user_id','=',$applicationID)->first();
+    
+        $newpass = Hash::make($request->newpass);
+        if(!Hash::check($request->currentpass,$data->password)){
+            
+            Alert::warning('Invalid','Wrong Input Password!!');
+            return back();
+        }else{
+          
+        $data->password =  $newpass;
+        $data->update();
+        $user_role->password = $newpass;
+        $user_role->update();
+        
+        Alert::success('Successfull','Succesfully password changed!!');
+        
+        return redirect('applicant/account');
         }
     }
    

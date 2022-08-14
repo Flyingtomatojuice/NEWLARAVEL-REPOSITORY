@@ -125,7 +125,7 @@ class MainController extends Controller
             'birthplace' => $request->bplace,
             'address' => $request->address,
             'postalcode' =>$request->postal,
-            'password' =>Hash::make($request->password),
+            //'password' =>($request->password),
             'agreement' =>$request->agreement
         ]);
      
@@ -133,7 +133,7 @@ class MainController extends Controller
             'user_id'=>$applicationID,
             'name' =>$fullname,
             'email' =>$request->email,
-            'password' =>Hash::make($request->password),
+           // 'password' =>($request->password),
             'role' => 'applicant',
         ]);
 

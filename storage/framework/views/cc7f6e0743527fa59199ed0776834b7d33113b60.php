@@ -4,10 +4,10 @@
 <!-- DISPLAY ANNOUNCEMENTS -->
 <div class="maincontent">
     
-<div class="card">
-  <div class="card-header"><?php echo e(__('List of Announcements')); ?></div>    
-  <div class="card-body">                  
-      <table class="table table-boredered table-responsive table-hover" >
+<div class="card" style="height: 100%;">
+  <div class="card-header"><h1> <?php echo e(__('List of Announcements')); ?> </h1></div>    
+  <div class="card-body text-center">                  
+      <table class="table table-boredered table-responsive-lg table-hover" >
           <tr>
               <th>Announcement ID</th>        
               <th>Announcement Title</th>

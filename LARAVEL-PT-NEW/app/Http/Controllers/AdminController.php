@@ -59,7 +59,6 @@ class AdminController extends Controller
 
         ]);
 
-
         if($request->hasfile('filename'))
          {
             $image = array();
@@ -74,34 +73,16 @@ class AdminController extends Controller
                     $image[] = $image_url;
                 }
             }
-            Announcement::insert([
+            Announcement::create([
                 'title' =>$request->title,
                 'file' =>implode('|',$image),
                 'content' =>$request->content,
+                
             ]);
-
+            
             return back();
         }
     }   
-        //     foreach($request->file('filename') as $image)
-        //     {
-        //         $name=$image->getClientOriginalName();
-        //         $image->move(public_path().'/images/', $name);  
-        //         $data[] = $name;  
-        //     }
-        //  }
-    
-
-        //  $form= new Announcement();
-        //  $form->title = $request->title;
-        //  $form->file=json_encode($data);
-        //  $form->content = $request->content; 
-        
-        // $form->save();
-
-        // return back()->with('success', 'Your images has been successfully');
-
-   
     public function displayAnnouncements(){
         $image = Announcement::all();
    //    $images = explode('|',$image->file);
@@ -160,11 +141,6 @@ class AdminController extends Controller
             $del->update();
             return back();
         }
-       
-       
-       
-      
-
 
     }
     public function updateAnnouncement(Request $request,$id){
@@ -213,11 +189,7 @@ class AdminController extends Controller
         return redirect('/admin/announcement');
     }
     public function displayDashboard(){
-        return view('admin.body.dashboard');
-    }
-    public function dashboardCharts(){
         //linechart
-
         $data['lineChart'] = MainModel::select(\DB::raw("COUNT(*) as count"), \DB::raw("MONTHNAME(created_at) as month_name"),\DB::raw('max(created_at) as createdAt'))
         ->whereYear('created_at', date('Y'))
         ->groupBy('month_name')
@@ -237,32 +209,5 @@ class AdminController extends Controller
       }
       return view('admin.body.dashboard',$data)->with('gender', json_encode($array));
     }
-}
-/*
-public function piechart(){
-    $data = DB::table('applicants')
-    ->select(
-     DB::raw('gender as gender'),
-     DB::raw('count(*) as number'))
-    ->groupBy('gender')
-    ->get();
-  $array[] = ['Gender', 'Number'];
-  foreach($data as $key => $value)
-  {
-   $array[++$key] = [$value->gender, $value->number];
-  }
-  return view('admin.body.charts.piechart')->with('gender', json_encode($array));
-}
-public function linechart(){
-
-    $data['lineChart'] = MainModel::select(\DB::raw("COUNT(*) as count"), \DB::raw("MONTHNAME(created_at) as month_name"),\DB::raw('max(created_at) as createdAt'))
-      ->whereYear('created_at', date('Y'))
-      ->groupBy('month_name')
-      ->orderBy('createdAt')
-      ->get();
-  //  $data= MainModel::where('firstname','jayvee')->get()->count();
-    //$applicants_count = MainModel::whereDate('created_at', Carbon::today())->get()->count();
-   // return view('admin.body.dashboard',$data);
-   return view('admin.body.charts.linechart',$data);
-}
-*/
+       
+    }

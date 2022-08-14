@@ -19,10 +19,22 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function listOfApplicant(){
-        $app = MainModel::all();
+    public function listOfApplicant()
+    {
         $appNo = User::all();
-        return view('admin.body.application',['app'=>$app]);
+        $app = MainModel::latest()->paginate(5);
+        return view('admin.body.application',compact('app'))
+        ->with('i',(request()->input('page',1)-1)*5);
+    }
+      
+    public function deleteApplicant($user_id){
+        $del = MainModel::find($user_id);
+        //Mail::to($del->email)->send(new RevokeMail($del));
+        $del->delete();
+        $del_user = User::where('user_id','=',$user_id);
+        $del_user->delete();
+        
+        return back();
     }
 
     public function displayPDF(){
@@ -89,24 +101,6 @@ class AdminController extends Controller
             return back();
         }
     }   
-        //     foreach($request->file('filename') as $image)
-        //     {
-        //         $name=$image->getClientOriginalName();
-        //         $image->move(public_path().'/images/', $name);  
-        //         $data[] = $name;  
-        //     }
-        //  }
-    
-
-        //  $form= new Announcement();
-        //  $form->title = $request->title;
-        //  $form->file=json_encode($data);
-        //  $form->content = $request->content; 
-        
-        // $form->save();
-
-        // return back()->with('success', 'Your images has been successfully');
-
    
     public function displayAnnouncements(){
         $image = Announcement::all();
@@ -130,15 +124,17 @@ class AdminController extends Controller
     }
     public function createAdmin(Request $request){
 
-    
+        $year = date("Y");
         $latest = MainModel::all()->last()->id;
         $user_admin = User::where('role','=','admin')->count();
         $isEmpty = User::count();
         $latestID = $user_admin + 00001;
-        $adminID = '2022ADMIN'.$latestID;
+        $latestID1 = $latestID + 1;
+        $adminID = $year.'ADMIN'.'0000'.$latestID1;
+        
      //   dd($user_admin);
        $admin = User::create([
-            'user_id'=>$request->$adminID,
+            'user_id'=>$adminID,
             'name'=>$request->name,
             'email' =>$request->email,
             'password' =>Hash::make($request->password),
@@ -168,11 +164,6 @@ class AdminController extends Controller
             $del->update();
             return back();
         }
-       
-       
-       
-      
-
 
     }
     public function updateAnnouncement(Request $request,$id){
@@ -221,35 +212,24 @@ class AdminController extends Controller
         return redirect('/admin/announcement');
     }
 
-
-
     public function displayDashboard(){
-        return view('admin.body.dashboard');
-    }
-    public function piechart(){
-        $data = DB::table('applicants')
+        $data['lineChart'] = MainModel::select(\DB::raw("COUNT(*) as count"), \DB::raw("MONTHNAME(created_at) as month_name"),\DB::raw('max(created_at) as createdAt'))
+        ->whereYear('created_at', date('Y'))
+        ->groupBy('month_name')
+        ->orderBy('createdAt')
+        ->get();
+        //piechart
+        $applicants= DB::table('applicants')
         ->select(
          DB::raw('gender as gender'),
          DB::raw('count(*) as number'))
         ->groupBy('gender')
         ->get();
       $array[] = ['Gender', 'Number'];
-      foreach($data as $key => $value)
+      foreach($applicants as $key => $value)
       {
        $array[++$key] = [$value->gender, $value->number];
       }
-      return view('admin.body.charts.piechart')->with('gender', json_encode($array));
-    }
-    public function linechart(){
-
-        $data['lineChart'] = MainModel::select(\DB::raw("COUNT(*) as count"), \DB::raw("MONTHNAME(created_at) as month_name"),\DB::raw('max(created_at) as createdAt'))
-          ->whereYear('created_at', date('Y'))
-          ->groupBy('month_name')
-          ->orderBy('createdAt')
-          ->get();
-      //  $data= MainModel::where('firstname','jayvee')->get()->count();
-        //$applicants_count = MainModel::whereDate('created_at', Carbon::today())->get()->count();
-       // return view('admin.body.dashboard',$data);
-       return view('admin.body.charts.linechart',$data);
+      return view('admin.body.dashboard',$data)->with('gender', json_encode($array));
     }
 }

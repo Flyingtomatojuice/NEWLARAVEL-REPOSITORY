@@ -12,7 +12,7 @@ class MainModel extends Model
     protected $fillable=['id','profile_pic','firstname','lastname','middlename','birthday','age','birthplace','gender','email','phonenumber','address','postalcode','password','agreement'];
 
     public static function getList(){
-        $list = DB::table('applicants')->select('firstname','lastname','middlename','birthday','age','birthplace','gender','email','phonenumber','address','postalcode','password','agreement')->get()->toArray();
+        $list = DB::table('applicants')->select('lastname','firstname','middlename','birthday','age','birthplace','gender','email','phonenumber','address')->get()->toArray();
         return $list;
     }
 }

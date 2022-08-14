@@ -57,10 +57,6 @@
   </div>
 </div>
 
-
-
-  
-
 <div class="applicant-div">
      
 <table>
@@ -71,22 +67,26 @@
         <th>Email</th>
         <th>Phonenumber</th>
         <th>Address</th>
+        <th>Action</th>
         
       </tr>
     </thead>
     <tbody>
       <?php $__currentLoopData = $app; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
       <tr>
-              <?php
-                 $latestID = $list->id + 00001;
-                 $applicationID = '2022A'.$latestID;
-              ?>
-        <td data-column="Application ID"><?php echo e($applicationID); ?></td>
+              
+        <td data-column="Application ID"><?php echo e($list->user_id); ?></td>
         <td data-column="FullName"><?php echo e($list->lastname); ?>, <?php echo e($list->firstname); ?> <?php echo e($list->middlename); ?>.</td>
         <td data-column="Email"><?php echo e($list->email); ?></td>
         <td data-column="Phonenumber"><?php echo e($list->phonenumber); ?></td>
         <td data-column="Address"><?php echo e($list->address); ?></td>
-        
+        <td>
+          <a href="<?php echo e(url('admin/deleteApplicant/'.$list->user_id)); ?>">
+          <button class="btn-danger" style="cursor: pointer"
+           onclick=deleteapplicant(this)>Delete
+          </button>
+          </a>
+        </td>
       </tr>
       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
       
@@ -94,7 +94,8 @@
     
     </tbody>
   </table>
-</div>
+  <?php echo $app->links(); ?>
 
+</div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('admin.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\JBE\laravel-project\resources\views/admin/body/application.blade.php ENDPATH**/ ?>

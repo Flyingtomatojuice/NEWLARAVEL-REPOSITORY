@@ -27,25 +27,26 @@ class ImportList implements ToModel,WithHeadingRow,WithValidation,SkipsOnError,S
       
        $isEmpty = MainModel::count();
        $fullname = $row['firstname'].' '. $row['middlename'].' '. $row['lastname'];
+       $agrement = 1;
        if($isEmpty == 0){
 
-            $latestID = 00001;
-            $applicationID = '2022A'.$latestID;
+            $latestID = 1;
+            $applicationID = '2022A'.'0000'.$latestID;
         }
         else{
             $latest = MainModel::all()->last()->id;
-            $latestID = $latest + 00001;
-            $applicationID = '2022A'.$latestID;
+            $latestID = $latest + 1;
+            $applicationID = '2022A'.'0000'.$latestID;
         }
         $user_acc = User::create([
             'user_id'=>$applicationID,
             'name' =>$fullname,
             'email' => $row['email'],
-            'password' => Hash::make($row['lastname'].$applicationID),
+            'password' => Hash::make($row['lastname']),
             'role' => 'applicant',
         ]);
         return new MainModel([
-            'id' =>$latest + 1,
+            'user_id'=>$applicationID,
             'firstname' => $row['firstname'],
             'lastname' => $row['lastname'],
             'middlename' => $row['middlename'],
@@ -56,9 +57,8 @@ class ImportList implements ToModel,WithHeadingRow,WithValidation,SkipsOnError,S
             'email' => $row['email'],
             'phonenumber' => $row['phonenumber'],
             'address' => $row['address'],
-            'postalcode' =>$row['postalcode'],
-            'password' => $row['password'],
-            'agreement' =>$row['agreement'],
+            'password' => Hash::make($row['lastname']),
+            'agreement' =>$agrement,
          ]);
         
     }

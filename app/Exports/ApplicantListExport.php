@@ -16,8 +16,8 @@ class ApplicantListExport implements FromCollection,WithHeadings,ShouldAutoSize,
     */
     public function headings():array{
         return[
-            'firstname',
             'lastname',
+            'firstname',
             'middlename',
             'birthday',
             'age',
@@ -26,9 +26,10 @@ class ApplicantListExport implements FromCollection,WithHeadings,ShouldAutoSize,
             'email',
             'phonenumber',
             'address',
-            'postalcode',
+            /*'postalcode',
             'password',
             'agreement'
+            */
         ];
     }
     /**
@@ -44,7 +45,7 @@ class ApplicantListExport implements FromCollection,WithHeadings,ShouldAutoSize,
         return [
             AfterSheet::class    => function(AfterSheet $event) {
    
-                $event->sheet->getDelegate()->getStyle('A1:M1')
+                $event->sheet->getDelegate()->getStyle('A1:J1')
                                 ->getFont()
                                 ->setBold(true);
    

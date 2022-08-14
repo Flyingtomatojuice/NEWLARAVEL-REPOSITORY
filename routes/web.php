@@ -28,14 +28,15 @@ Route::controller(App\Http\Controllers\ApplicantController::class)->group(functi
     Route::get('/accounteditapp/{acc}','accounteditapp')->middleware('isLoggedIn');
     Route::get('/applicant/dashboard','dashboard')->middleware('isLoggedIn');
     Route::put('/update-data/{id}','updateprofile')->middleware('isLoggedIn');
+    Route::post('/update-password','updatepass')->middleware('isLoggedIn');
+    route::get('/admin/change-password','changepass')->middleware('isLoggedIn');
     
   
 });
 Route::controller(App\Http\Controllers\AdminController::class)->group(function(){
 
     //::get('/admin','');
-    //Route::get('/admin/dashboard','displayDashboard')->middleware('isLoggedIn');
-    Route::get('/admin/dashboard','dashboardCharts')->middleware('isLoggedIn');
+    Route::get('/admin/dashboard','displayDashboard')->middleware('isLoggedIn');
     Route::get('admin/piechart','piechart')->middleware('isLoggedIn');
     Route::get('admin/linechart','linechart')->middleware('isLoggedIn');
     Route::get('/admin/application','listOfApplicant')->middleware('isLoggedIn');
@@ -49,6 +50,8 @@ Route::controller(App\Http\Controllers\AdminController::class)->group(function()
     Route::get('/admin/editannouncement/{id}','showEdit')->middleware('isLoggedIn');
     Route::get('/admin/deleteimage/{id}/{image}','deleteImage')->middleware('isLoggedIn');
     Route::post('/admin/updateannouncement/{id}','updateAnnouncement')->middleware('isLoggedIn');
+    Route::get('/admin/deleteApplicant/{user_id}','deleteApplicant')->middleware('isLoggedIn');
+
    // Route::get('/admin/admin-reg','');
    // Route::get('/admin/announcement','');
     Route::get('/admin', function () {

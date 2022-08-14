@@ -66,55 +66,6 @@
 
   </div>
 </div>
-{{-- <div class="row">
-  
-  <div class="column-import">
-  <div class="card">
-    <div class="panel panel-default">
-      <div class="panel-heading"><h5>Import</h5></div>
-      <div class="panel-body">
-          <input type='file' />
-          <button class='btn-primary '>Import</button>
-        
-      </div>
-    </div>
-    </div>
-  </div>
-
-</div> --}}
-
-
-  {{-- <div class="column-export">
-  <div class="card">
-    <div class="row">
-      <div class="col-sm-12">
-        @if (Session::has('fail'))
-      <div class="alert alert-danger">{{ Session::get('fail') }} </div>
-     @endif
-      </div>
-    </div>
-    <div class="row">
-      
-    <div class="col-sm-8">
-      <form method='post' id="export" action="{{ route('export') }}">
-        @csrf
-       
-      <div class="select">
-          <select name="exportFile">
-              <option value="">Select Export File Type</option>
-              <option value="pdf">PDF File</option>
-              <option value="csv">CSV File</option>
-              <option value="excel">EXCEL File</option>
-          </select>
-        </div>
-    </div>
-      <div class="col-sm-4">
-        <button type='submit' class='btn-primary btn-lg'>Export</button>
-      </div>    
-    </form>
-    </div>
-    </div>
-  </div> --}}
 
 <div class="applicant-div">
      
@@ -126,22 +77,26 @@
         <th>Email</th>
         <th>Phonenumber</th>
         <th>Address</th>
+        <th>Action</th>
         
       </tr>
     </thead>
     <tbody>
       @foreach ($app as $list)
       <tr>
-              @php
-                 $latestID = $list->id + 00001;
-                 $applicationID = '2022A'.$latestID;
-              @endphp
-        <td data-column="Application ID">{{ $applicationID }}</td>
+              
+        <td data-column="Application ID">{{ $list->user_id }}</td>
         <td data-column="FullName">{{ $list->lastname }}, {{ $list->firstname }} {{ $list->middlename }}.</td>
         <td data-column="Email">{{ $list->email }}</td>
         <td data-column="Phonenumber">{{ $list->phonenumber }}</td>
         <td data-column="Address">{{ $list->address }}</td>
-        
+        <td>
+          <a href="{{ url('admin/deleteApplicant/'.$list->user_id)}}">
+          <button class="btn-danger" style="cursor: pointer"
+           onclick=deleteapplicant(this)>Delete
+          </button>
+          </a>
+        </td>
       </tr>
       @endforeach
       
@@ -149,6 +104,6 @@
     
     </tbody>
   </table>
+  {!! $app->links() !!}
 </div>
-
 @endsection

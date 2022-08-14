@@ -9,10 +9,10 @@ class MainModel extends Model
 {
     public $table ="applicants";
     protected $primaryKey ="id";
-    protected $fillable=['id','profile_pic','firstname','lastname','middlename','birthday','age','birthplace','gender','email','phonenumber','address','postalcode','password','agreement'];
+    protected $fillable=['id','user_id','profile_pic','firstname','lastname','middlename','birthday','age','birthplace','gender','email','phonenumber','address','postalcode','password','agreement'];
 
     public static function getList(){
-        $list = DB::table('applicants')->select('firstname','lastname','middlename','birthday','age','birthplace','gender','email','phonenumber','address','postalcode','password','agreement')->get()->toArray();
+        $list = DB::table('applicants')->select('lastname','firstname','middlename','birthday','age','birthplace','gender','email','phonenumber','address')->get()->toArray();
         return $list;
     }
 }

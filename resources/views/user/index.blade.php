@@ -11,6 +11,7 @@
       <link rel="stylesheet" href="{{asset('css/sidebar.css')}}">
       <link rel="stylesheet" href="{{asset('css/instagram.css')}}">
       <link rel="stylesheet" href="{{ asset('css/applicant/dashboard.css') }}">
+      <link rel="stylesheet" href="{{ asset('css/applicant/updatepass.css') }}">
       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
         <link rel="stylesheet" href="{{ asset('css/applicant/account.css') }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">    
@@ -78,11 +79,19 @@
                     account_circle
                     </span><span class="menu">Account</span></li>
             </a>
+
+            <a href="{{ url('/admin/change-password') }}">
+                <li><span class="material-icons-outlined">
+                    lock
+                    </span><span class="menu">Change Password</span></li>
+            </a>
+            
             <a action="{{ url('/logout') }}" onclick="destroyData(this)">
                 <li><span class="material-icons-outlined">
-                        logout
+                    logout
                     </span><span class="menu">Logout</span></li>
             </a>
+            
 
         </ul>
         
