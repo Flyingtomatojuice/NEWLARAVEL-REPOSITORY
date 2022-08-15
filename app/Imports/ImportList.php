@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Imports;
+
+use App\Mail\AdminMail;
 use App\Models\User;
 use App\Models\MainModel;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -13,6 +15,8 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Validators\Failure;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Mail;
 class ImportList implements ToModel,WithHeadingRow,WithValidation,SkipsOnError,SkipsOnFailure
 {
     use Importable,SkipsErrors,SkipsFailures;
@@ -42,9 +46,12 @@ class ImportList implements ToModel,WithHeadingRow,WithValidation,SkipsOnError,S
             'user_id'=>$applicationID,
             'name' =>$fullname,
             'email' => $row['email'],
+            'emailVerify_token'=>Str::random(60),
             'password' => Hash::make($row['lastname']),
             'role' => 'applicant',
         ]);
+        Mail::to($row['email'])->send(new AdminMail($user_acc));
+        
         return new MainModel([
             'user_id'=>$applicationID,
             'firstname' => $row['firstname'],
