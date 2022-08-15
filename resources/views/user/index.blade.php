@@ -44,6 +44,7 @@
         </span>
 
     <div class="side-nav">
+        @include('sweetalert::alert')
 
       
         <span class="material-icons-outlined" id="close">

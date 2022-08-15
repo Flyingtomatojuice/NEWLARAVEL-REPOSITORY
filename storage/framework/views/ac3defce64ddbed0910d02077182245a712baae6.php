@@ -44,6 +44,7 @@
         </span>
 
     <div class="side-nav">
+        <?php echo $__env->make('sweetalert::alert', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
       
         <span class="material-icons-outlined" id="close">

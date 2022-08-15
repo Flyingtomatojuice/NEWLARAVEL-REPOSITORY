@@ -80,12 +80,11 @@ class ApplicantController extends Controller
     $id = session()->get('applicantID');
     $applicationID = session()->get('applicantes');
 
-    $data = MainModel::find($applicationID);
+    $data = MainModel::find($id);
     $user_role = User::where('user_id','=',$applicationID)->first();
-
-    dd($data);
+      
     $newpass = Hash::make($request->newpass);
-    if(!Hash::check($request->currentpass,$data->password)){
+    if(!Hash::check($request->currentpass,$user_role->password)){
         
         Alert::warning('Invalid','Wrong Input Password!!');
         return back();

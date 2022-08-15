@@ -37,6 +37,7 @@ class MainController extends Controller
                 $request->session()->put('loginID',$user_role->user_id); 
                 $request->session()->put('applicantID',$user->id);
                 $request->session()->put('applicantes',$user->user_id);
+              
                 return redirect('/applicant');
             }
             else
