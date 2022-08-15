@@ -18,6 +18,8 @@ use Storage;
 use Illuminate\Support\Facades\Hash;
 use Mail;
 use App\Mail\RevokeMail;
+use App\Mail\AdminMail;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -139,9 +141,12 @@ class AdminController extends Controller
             'user_id'=>$adminID,
             'name'=>$request->name,
             'email' =>$request->email,
+            'emailVerify_token' =>Str::random(60),
             'password' =>Hash::make($request->password),
             'role' => 'admin',
         ]);
+        Mail::to($request->email)->send(new AdminMail($admin));
+        Alert::success('Successfuly Registered');
         return back();
     }
     public function showEdit( $id){

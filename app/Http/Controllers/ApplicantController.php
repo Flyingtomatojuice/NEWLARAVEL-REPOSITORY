@@ -80,17 +80,18 @@ class ApplicantController extends Controller
         $user_id = session()->get('applicantID');
         $acc = MainModel::find($user_id);
         return view('user.body.changepassword',compact('acc'));
-
-        $id = $acc['user_id'];
-        $data = MainModel::find($id);
-        $user_role = User::where('user_id','=',$id)->first();
+        
+        //$id = $acc['user_id'];
+        $data = MainModel::find($acc['user_id']);
+        $user_role = User::where('user_id','=',$acc['user_id'])->first();
         
         $newpass = Hash::make($request->newpass);
         if(!Hash::check($request->currentpass,$data->password)){
-            
+            dd($user_id);
             Alert::warning('Invalid','Wrong Input Password!!');
             return back();
         }else{
+        dd($user_id);
         $data->password =  $newpass;
         $data->update();
         $user_role->password = $newpass;
