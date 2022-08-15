@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Storage;
 use Illuminate\Support\Facades\Hash;
 use Mail;
+use App\Mail\RevokeMail;
 
 class AdminController extends Controller
 {
@@ -31,7 +32,7 @@ class AdminController extends Controller
       
     public function deleteApplicant($user_id){
         $del = MainModel::where('user_id','=',$user_id);
-        Mail::to($del->email)->send(new RevokeMail($del));
+        //Mail::to($del->email)->send(new RevokeMail($del));
         $del->delete();
         $del_user = User::where('user_id','=',$user_id);
         $del_user->delete();

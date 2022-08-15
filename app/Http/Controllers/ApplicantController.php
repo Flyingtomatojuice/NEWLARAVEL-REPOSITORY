@@ -76,28 +76,30 @@ class ApplicantController extends Controller
     }
 
     public function updatepass(Request $request){
-        $id = session()->get('applicantID');
-        $Year = date("Y");
-        $applicationID = $Year.'A'.'0000'.$id;
+
+        $user_id = session()->get('applicantID');
+        $acc = MainModel::find($user_id);
+        return view('user.body.changepassword',compact('acc'));
+
+        $id = $acc['user_id'];
         $data = MainModel::find($id);
-        $user_role = User::where('user_id','=',$applicationID)->first();
-    
+        $user_role = User::where('user_id','=',$id)->first();
+        
         $newpass = Hash::make($request->newpass);
         if(!Hash::check($request->currentpass,$data->password)){
             
             Alert::warning('Invalid','Wrong Input Password!!');
             return back();
         }else{
-          
         $data->password =  $newpass;
         $data->update();
         $user_role->password = $newpass;
         $user_role->update();
-        
-        Alert::success('Successfull','Succesfully password changed!!');
-        
-        return redirect('applicant/account');
-        }
+    
+    Alert::success('Successfull','Succesfully password changed!!');
+    
+    return redirect('applicant/account');
+    }
     }
    
 }

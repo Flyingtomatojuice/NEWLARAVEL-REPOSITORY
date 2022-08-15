@@ -11,13 +11,11 @@
       function drawChart()
       {
        var data = google.visualization.arrayToDataTable(analytics);
-       if(data == "")
-       {
-        data = "null"
-       }
        var options = {
         title : 'Percentage between Male and Female Applicants'
+      
        };
+      
        
        var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
        chart.draw(data, options);
