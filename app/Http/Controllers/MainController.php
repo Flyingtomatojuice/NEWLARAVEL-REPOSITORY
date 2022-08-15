@@ -36,6 +36,7 @@ class MainController extends Controller
             if(!$user_role->email_verified_at == null){
                 $request->session()->put('loginID',$user_role->user_id); 
                 $request->session()->put('applicantID',$user->id);
+                $request->session()->put('applicantes',$user->user_id);
                 return redirect('/applicant');
             }
             else

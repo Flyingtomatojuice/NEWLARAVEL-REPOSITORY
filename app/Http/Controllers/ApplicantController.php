@@ -75,32 +75,32 @@ class ApplicantController extends Controller
         return view('user.body.changepassword');
     }
 
+    
     public function updatepass(Request $request){
+    $id = session()->get('applicantID');
+    $applicationID = session()->get('applicantes');
 
-        $user_id = session()->get('applicantID');
-        $acc = MainModel::find($user_id);
-        return view('user.body.changepassword',compact('acc'));
+    $data = MainModel::find($applicationID);
+    $user_role = User::where('user_id','=',$applicationID)->first();
+
+    dd($data);
+    $newpass = Hash::make($request->newpass);
+    if(!Hash::check($request->currentpass,$data->password)){
         
-        //$id = $acc['user_id'];
-        $data = MainModel::find($acc['user_id']);
-        $user_role = User::where('user_id','=',$acc['user_id'])->first();
-        
-        $newpass = Hash::make($request->newpass);
-        if(!Hash::check($request->currentpass,$data->password)){
-            dd($user_id);
-            Alert::warning('Invalid','Wrong Input Password!!');
-            return back();
-        }else{
-        dd($user_id);
-        $data->password =  $newpass;
-        $data->update();
-        $user_role->password = $newpass;
-        $user_role->update();
+        Alert::warning('Invalid','Wrong Input Password!!');
+        return back();
+    }else{
+    $data->password =  $newpass;
+    $data->update();
+    $user_role->password = $newpass;
+    $user_role->update();
     
     Alert::success('Successfull','Succesfully password changed!!');
     
     return redirect('applicant/account');
     }
-    }
+   }
+    
+    
    
 }
