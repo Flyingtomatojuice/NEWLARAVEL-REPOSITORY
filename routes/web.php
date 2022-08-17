@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,7 +51,8 @@ Route::controller(App\Http\Controllers\AdminController::class)->group(function()
     Route::get('/admin/editannouncement/{id}','showEdit')->middleware('isLoggedIn');
     Route::get('/admin/deleteimage/{id}/{image}','deleteImage')->middleware('isLoggedIn');
     Route::post('/admin/updateannouncement/{id}','updateAnnouncement')->middleware('isLoggedIn');
-    Route::get('/admin/deleteApplicant/{user_id}','deleteApplicant')->middleware('isLoggedIn');
+    //Route::delete('/admin/deleteApplicant/{user_id}','deleteApplicant')->middleware('isLoggedIn');
+    Route::delete('/admin/deleteApplicant/{user_id}',[AdminController::class,'deleteApplicant'])->name('deleteApplicant');
 
    // Route::get('/admin/admin-reg','');
    // Route::get('/admin/announcement','');

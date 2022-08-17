@@ -52,7 +52,7 @@
             </span> 
             <?php
                 use App\Models\MainModel;
-                 $id = session()->get('applicantID');
+                $id = session()->get('applicantID');
                 $pic = MainModel::find($id);
                 $currentpic = str_replace('images/','/images/profilepic/',$pic->profile_pic);
             ?> 

@@ -33,18 +33,23 @@ class MainController extends Controller
             $user = MainModel::where('email','=',$user_role->email)->first();
            if(Hash::check($request->password,$user_role->password))
            {
-            if(!$user_role->email_verified_at == null){
+                if(!$user_role->email_verified_at == null)
+                {
                 $request->session()->put('loginID',$user_role->user_id); 
                 $request->session()->put('applicantID',$user->id);
                 $request->session()->put('applicantes',$user->user_id);
               
                 return redirect('/applicant');
+                }
+                else
+                {
+                return back()->with('fail','Email Account is not verified!!');
+                }
+
             }
             else
             {
-                return back()->with('fail','Email Account is not verified!!');
-            }
-
+                return back()->with('fail','Email or Password does not match!');
             }
         }
         
@@ -59,11 +64,15 @@ class MainController extends Controller
                     return back()->with('fail','Email Account is not verified!!');
                 }
          }
+         else
+         {
+             return back()->with('fail','Email or Password does not match!');
+         }
         }
          //invalid cridentials
          else
          {
-            return back()->with('fail','This credentials is not registered'); 
+            return back()->with('fail','This Account is not registered'); 
          }
         
     }

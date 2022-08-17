@@ -33,11 +33,14 @@ class AdminController extends Controller
     }
       
     public function deleteApplicant($user_id){
-        $del = MainModel::where('user_id','=',$user_id);
+        //delete MainModel
+        $delmain = MainModel::where('user_id','=',$user_id);
         //Mail::to($del->email)->send(new RevokeMail($del));
-        $del->delete();
-        $del_user = User::where('user_id','=',$user_id);
-        $del_user->delete();
+        $delmain->delete();
+
+        //delete UserModel
+        $deluser = User::where('user_id','=',$user_id);
+        $deluser->delete();
         
         return back();
     }
@@ -132,7 +135,7 @@ class AdminController extends Controller
         $latest = MainModel::all()->last()->id;
         $user_admin = User::where('role','=','admin')->count();
         $isEmpty = User::count();
-        $latestID = $user_admin + 00001;
+        $latestID = $user_admin + 1;
         $latestID1 = $latestID + 1;
         $adminID = $year.'ADMIN'.'0000'.$latestID1;
         

@@ -91,11 +91,13 @@
         <td data-column="Phonenumber">{{ $list->phonenumber }}</td>
         <td data-column="Address">{{ $list->address }}</td>
         <td>
-          <a href="{{ url('admin/deleteApplicant/'.$list->user_id)}}">
-          <button class="btn-danger" style="cursor: pointer"
-           onclick=deleteapplicant(this)>Delete
-          </button>
-          </a>
+          <form action="{{ route('deleteApplicant',$list->user_id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input name="_method" type="hidden" value="Delete">
+            <button type="submit" class="btn btn-danger btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip">Delete</button>
+    
+        </form>
         </td>
       </tr>
       @endforeach
@@ -111,4 +113,26 @@
     </tbody>
   </table>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script type="text/javascript">
+ 
+     $('.show_confirm').click(function(event) {
+          var form =  $(this).closest("form");
+          var name = $(this).data("name");
+          event.preventDefault();
+          swal({
+              title: `Are you sure you want to delete this record?`,
+              text: "If you delete this, it will be gone forever.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              form.submit();
+            }
+          });
+      });
+  
+</script>
 @endsection
