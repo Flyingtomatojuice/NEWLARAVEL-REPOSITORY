@@ -273,7 +273,7 @@
             <div class="col-xs-4 col-sm-4 col-md-4">
                 <div class="form-group">
                     <strong class="details" id="email_error">Email:</strong>
-                    <input type="text" id="form_email" name="email" value="  {{ $acc['email']}} "  class="form-control" placeholder="Email">
+                    <input type="text" id="form_email" name="email" value="  {{ $acc['email']}}" readonly  class="form-control" placeholder="Email">
                 </div>
             </div>
             <div class="col-xs-4 col-sm-4 col-md-4">

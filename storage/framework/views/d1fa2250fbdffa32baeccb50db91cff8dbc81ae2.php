@@ -12,7 +12,7 @@
       {
        var data = google.visualization.arrayToDataTable(analytics);
        var options = {
-        title : 'Percentage between Male and Female Applicants'
+        title : 'Percentage between Male and Female Applicants. Null values are unedited applicant profile'
       
        };
       
